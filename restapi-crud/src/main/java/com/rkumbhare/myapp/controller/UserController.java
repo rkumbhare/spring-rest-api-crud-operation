@@ -15,7 +15,10 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rkumbhare.myapp.exception.ControllerException;
 import com.rkumbhare.myapp.vo.Address;
+import com.rkumbhare.myapp.vo.ClientError;
 import com.rkumbhare.myapp.vo.Contact;
 import com.rkumbhare.myapp.vo.Message;
 import com.rkumbhare.myapp.vo.User;
@@ -83,12 +88,13 @@ public class UserController {
 
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET, produces = {"application/json"})
 	@ResponseBody
-	public User getUser(@PathVariable("userId") final int userId) {
+	public User getUser(@PathVariable("userId") final int userId) throws ControllerException{
 		Optional<User> optional = this.userList.stream().filter(user -> user.getUserId() == userId).findFirst();
 		if (optional.isPresent()) {
 			return optional.get();
+		}else{
+			throw new ControllerException("Invalid UserId : " + userId);
 		}
-		return null;
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.PUT, consumes = {"application/json"}, 
@@ -135,6 +141,13 @@ public class UserController {
 	public Message deleteUser(@PathVariable("userId") final int userId){
 		this.userList = this.userList.stream().filter(user -> user.getUserId()!= userId).collect(Collectors.toList());
 		return new Message(true, "User '" + userId + "' is deleted");
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ClientError> exceptionHandler(Exception e){
+		ClientError error = new ClientError(HttpStatus.BAD_REQUEST, e.getMessage(), e.toString());
+		ResponseEntity<ClientError> response = new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+		return response;
 	}
 
 }
