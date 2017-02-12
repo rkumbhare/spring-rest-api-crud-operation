@@ -8,7 +8,9 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
 
 	<mvc:annotation-driven></mvc:annotation-driven>
-
+	
+	<context:component-scan base-package="com.rkumbhare.myapp.controller"></context:component-scan>
+	
 	<bean id="jackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	</bean>
 
