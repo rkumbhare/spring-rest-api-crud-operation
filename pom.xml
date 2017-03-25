@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.rkumbhare.myapp</groupId>
-	<artifactId>restapi-crud</artifactId>
+	<artifactId>spring-rest-api-crud-operation</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>restapi-crud Maven Webapp</name>
+	<name>spring-rest-api-crud-operation Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 
@@ -123,7 +123,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>restapi-crud</finalName>
+		<finalName>restapi</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -138,7 +138,7 @@
 				<version>2.1.1</version>
 				<configuration>
 					<outputDirectory>webapps</outputDirectory>
-					<warName>restapi-crud</warName>
+					<warName>restapi</warName>
 					<failOnMissingWebXml>true</failOnMissingWebXml>
 				</configuration>
 			</plugin>
